@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  tt-nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    networks:
+      - tt-network
+    volumes:
+      - ./task-tracker-frontend:/var/www:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+
+  tt-postgres:
+    container_name: tt-postgres
+    image: postgres:14-alpine
+    volumes:
+      - .volumes/postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres-db
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 5432:5432
+    networks:
+      - tt-network
+
+
+volumes:
+  tt-postgres_data:
+    driver: local
+
+networks:
+  tt-network:
+    driver: bridge
+
+
