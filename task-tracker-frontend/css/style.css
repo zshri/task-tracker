@@ -1,6 +1,55 @@
 body {
     font-family: Arial, sans-serif;
 }
+
 h1 {
     color: #333;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* Отступ между элементами */
+    padding: 10px 15px; /* Внутренние отступы */
+    border: 1px solid #ddd; /* Граница вокруг каждой задачи */
+    border-radius: 4px; /* Скругленные углы */
+    background-color: #fff; /* Белый фон */
+}
+
+.task-title {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+    max-width: calc(100% - 30px); /* Оставляем место для иконки */
+}
+
+.edit-task {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.edit-task i {
+    font-size: 1.2em;
+    color: #000000; /* Черный цвет иконки */
+}
+
+.edit-task:hover i {
+    color: #333333; /* Немного светлее черного при наведении */
+}
+
+/* Убираем стандартные стили Bootstrap для list-group-item */
+.list-group-item:first-child,
+.list-group-item:last-child {
+    border-radius: 4px;
+}
+
+/* Добавляем отступ между списками задач */
+#todoList, #completedList {
+    padding-left: 0; /* Убираем стандартный отступ слева у ul */
 }

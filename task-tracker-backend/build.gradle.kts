@@ -33,6 +33,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.apache.kafka:kafka-streams")
+
 //    implementation("org.liquibase:liquibase-core")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
@@ -41,7 +42,14 @@ dependencies {
 //    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+
+    implementation("org.mapstruct:mapstruct:1.6.0")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.6.0")
+    annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
     annotationProcessor("org.projectlombok:lombok")
+
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.springframework.kafka:spring-kafka-test")
@@ -58,3 +66,7 @@ tasks.withType<Test> {
 
 tasks.register("prepareKotlinBuildScriptModel"){}
 
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
+    options.annotationProcessorPath = configurations.annotationProcessor.get()
+}
