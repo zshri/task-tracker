@@ -3,6 +3,8 @@ package org.example.tasktrackerbackend.security;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.tasktrackerbackend.component.EmailTaskProducer;
+import org.example.tasktrackerbackend.model.EmailTask;
 import org.example.tasktrackerbackend.model.User;
 import org.example.tasktrackerbackend.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +26,8 @@ public class AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final EmailTaskProducer emailTaskProducer;
+
 
     /**
      * Аутентифицирует пользователя по email и паролю.
@@ -65,6 +69,9 @@ public class AuthService {
         userRepository.save(user);
 
         log.info("User successfully saved in database -> {}", registerRequest.getUsername());
+
+        EmailTask welcomeEmail = new EmailTask(registerRequest.getEmail(), "Добро пожаловать!", "Спасибо за регистрацию, " + registerRequest.getUsername() + "!");
+        emailTaskProducer.sendEmailTask(welcomeEmail);
 
         String accessToken = jwtService.generateToken(user);
 
